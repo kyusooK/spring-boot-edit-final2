@@ -1,39 +1,42 @@
 package edittemplate.infra;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edittemplate.config.kafka.KafkaProcessor;
 import edittemplate.domain.*;
-import java.util.function.Consumer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.messaging.Message;
+import javax.naming.NameParser;
+import javax.naming.NameParser;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 //<<< Clean Arch / Inbound Adaptor
 @Service
 @Transactional
 public class PolicyHandler {
 
-    @Bean
-    public Consumer<Message<?>> discardFunction() {
-        return message -> {
-            // Ingore unnecessary message
-            System.out.println("Discarded message: " + message);
-        };
-    }
+    @Autowired
+    ProductRepository productRepository;
 
-    @Bean
-    public Consumer<Message<OrderPlaced>> wheneverOrderPlaced_DecreaseStock() {
-        return event -> {
-            OrderPlaced orderPlaced = event.getPayload();
-            Product.decreaseStock(orderPlaced);
-        };
-    }
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whatever(@Payload String eventString) {}
 
-    @Bean
-    public Consumer<Message<OrderCanceled>> wheneverOrderCanceled_IncreaseStock() {
-        return event -> {
-            OrderCanceled orderCanceled = event.getPayload();
-            Product.increaseStock(orderCanceled);
-        };
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='OrderPlaced'"
+    )
+    public void wheneverOrderPlaced_DecreaseStock(
+        @Payload OrderPlaced orderPlaced
+    ) {
+        OrderPlaced event = orderPlaced;
+        System.out.println(
+            "\n\n##### listener DecreaseStock : " + orderPlaced + "\n\n"
+        );
+
+        // Sample Logic //
+        Product.decreaseStock(event);
     }
 }
 //>>> Clean Arch / Inbound Adaptor

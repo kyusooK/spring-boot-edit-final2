@@ -42,7 +42,7 @@
                         color="primary"
                         style="font-weight:700;"
                     >
-                        Order
+                        주문서비스
                     </v-list-item>
 
 
@@ -137,7 +137,7 @@ export default {
         ImageUrl: '',
         aggregate: [
             { 
-                title: 'Order', 
+                title: '주문서비스', 
                 description: '', 
                 key: 'orders', 
                 route: '/orders/orders',

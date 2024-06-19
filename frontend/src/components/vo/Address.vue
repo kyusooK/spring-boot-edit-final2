@@ -51,7 +51,7 @@
 
     Vue.use(VueGoogleMaps, {
         load: {
-            key: 'AIzaSyC25WBJaWKmod3bV1gX1oAjq7Myu3bIHyY',
+            key: '',
             libraries: 'places', // This is required if you use the Autocomplete plugin
             region: "KR",
         },

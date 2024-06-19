@@ -13,7 +13,7 @@
                         class="border-color"
                     >
                     </v-list-item-avatar>
-                    <h1 class="align-self-center ml-3">Order</h1>
+                    <h1 class="align-self-center ml-3">주문서비스</h1>
                     <div class="secondary-text-color" style="margin-left:30px;"></div>
                 </v-list-item>
             </v-row>
@@ -66,7 +66,7 @@
                                 color="primary"
                                 style="font-weight:500; font-size:20px; padding:15px; border:solid 2px; max-width:250px; overflow:hidden"
                             >
-                                Order 등록
+                                주문서비스 등록
                             </v-btn>
                         </v-card-actions>
                     </v-card>

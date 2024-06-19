@@ -7,9 +7,7 @@ spring:
 ---
 
 spring:
-  config:
-    activate:
-      on-profile: default
+  profiles: default
   jpa:
     properties:
       hibernate:
@@ -17,20 +15,31 @@ spring:
         format_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
   cloud:
-    function:
-      routing-expression: 'discardFunction'
     stream:
       kafka:
         binder:
           brokers: localhost:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
       bindings:
-          functionRouter-in-0:              
-            group: order
-            destination: edittemplate
-            contentType: application/json  
-          producer-out-0:
-            destination: edittemplate
-            contentType: application/json
+        event-in:
+          group: order
+#<<< EDA / Topic Name
+          destination: edittemplate
+#>>> EDA / Topic Name
+          contentType: application/json
+        event-out:
+#<<< EDA / Topic Name
+          destination: edittemplate
+#>>> EDA / Topic Name
+          contentType: application/json
+
 logging:
   level:
     org.hibernate.type: trace
@@ -43,9 +52,7 @@ server:
 ---
 
 spring:
-  config:
-    activate:
-      on-profile: docker
+  profiles: docker
   jpa:
     properties:
       hibernate:
@@ -53,19 +60,25 @@ spring:
         format_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
   cloud:
-    function:
-      routing-expression: 'discardFunction'
     stream:
       kafka:
         binder:
           brokers: my-kafka:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
       bindings:
-          functionRouter-in-0:              
-            group: order
-            destination: edittemplate
-            contentType: application/json  
-          producer-out-0:
-            destination: edittemplate
-            contentType: application/json
-            
+        event-in:
+          group: order
+          destination: edittemplate
+          contentType: application/json
+        event-out:
+          destination: edittemplate
+          contentType: application/json
+
 

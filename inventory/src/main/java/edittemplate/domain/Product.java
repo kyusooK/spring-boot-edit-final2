@@ -2,11 +2,10 @@ package edittemplate.domain;
 
 import edittemplate.InventoryApplication;
 import edittemplate.domain.StockDecreased;
-import edittemplate.domain.StockIncreased;
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -25,9 +24,6 @@ public class Product {
     public void onPostPersist() {
         StockDecreased stockDecreased = new StockDecreased(this);
         stockDecreased.publishAfterCommit();
-
-        StockIncreased stockIncreased = new StockIncreased(this);
-        stockIncreased.publishAfterCommit();
     }
 
     public static ProductRepository repository() {
@@ -58,34 +54,6 @@ public class Product {
 
             StockDecreased stockDecreased = new StockDecreased(product);
             stockDecreased.publishAfterCommit();
-
-         });
-        */
-
-    }
-
-    //>>> Clean Arch / Port Method
-    //<<< Clean Arch / Port Method
-    public static void increaseStock(OrderCanceled orderCanceled) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Product product = new Product();
-        repository().save(product);
-
-        StockIncreased stockIncreased = new StockIncreased(product);
-        stockIncreased.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(orderCanceled.get???()).ifPresent(product->{
-            
-            product // do something
-            repository().save(product);
-
-            StockIncreased stockIncreased = new StockIncreased(product);
-            stockIncreased.publishAfterCommit();
 
          });
         */
